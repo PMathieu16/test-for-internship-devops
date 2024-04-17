@@ -32,6 +32,7 @@ jobs:
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
           kubectl config set-context --current --namespace=${{ env.K8S_NAMESPACE }}
+          echo "K8S_NAMESPACE=${{ env.K8S_NAMESPACE }}" >> $GITHUB_ENV
 
       - name: "Run Azure CLI commands"
         run: |
@@ -40,7 +41,7 @@ jobs:
           az acr login --name devmptg 
           docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
           docker push devmptg.azurecr.io/mp-devops-app:latest
-          sed -i 's/latest/'${{ github.sha }}'/g' deployment.yaml
+          sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
           kubectl apply -f deployment.yaml
           cat deployment.yaml
           kubectl apply -f service.yaml
