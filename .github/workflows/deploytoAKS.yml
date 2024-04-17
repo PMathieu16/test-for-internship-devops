@@ -29,7 +29,7 @@ jobs:
 
       - name: "Run login az"
         run: |
-          az account set --subscription ca9482c7-87e7-4b26-8418-bc48a82240b5
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
           kubectl config set-context --current --namespace=${{ env.K8S_NAMESPACE }}
 
