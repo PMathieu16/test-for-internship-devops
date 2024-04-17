@@ -31,7 +31,7 @@ jobs:
         run: |
           az account set --subscription ca9482c7-87e7-4b26-8418-bc48a82240b5
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
-          kubectl config set-context --current --namespace=${{ secrets.K8S_NAMESPACE }}
+          kubectl config set-context --current --namespace=${{ env.K8S_NAMESPACE }}
 
       - name: "Run Azure CLI commands"
         run: |
