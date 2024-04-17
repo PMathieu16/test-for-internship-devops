@@ -40,6 +40,6 @@ jobs:
           az acr login --name devmptg 
           docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
           docker push devmptg.azurecr.io/mp-devops-app:latest
-          export VERSION=${{ github.sha }}
+          sed -i 's/latest/'${{ github.sha }}'/g' deployment.yaml
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
