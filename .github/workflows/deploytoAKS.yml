@@ -32,7 +32,7 @@ jobs:
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
           kubectl config set-context --current --namespace=${{ env.K8S_NAMESPACE }}
-          echo "K8S_NAMESPACE=${{ env.K8S_NAMESPACE }}" >> $GITHUB_ENV
+          echo "K8S_NAMESPACE=${{ vars.K8S_NAMESPACE }}" >> $GITHUB_ENV
 
       - name: "Run Azure CLI commands"
         run: |
