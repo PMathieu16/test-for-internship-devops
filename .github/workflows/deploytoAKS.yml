@@ -36,9 +36,8 @@ jobs:
       - name: "Run Azure CLI commands"
         run: |
           docker build -t devmptg.azurecr.io/mp-devops-app:${{ github.sha }} .
-          docker tag devmptg.azurecr.io/mp-devops-app:${{ github.sha }} devmptg.azurecr.io/mp-devops-app:latest
           az acr login --name devmptg 
           docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
-          docker push devmptg.azurecr.io/mp-devops-app:latest
+          export VERSION=${{ github.sha }}
           kubectl apply -f deployment.yaml
           kubectl apply -f service.yaml
