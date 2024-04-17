@@ -27,7 +27,7 @@ jobs:
       - name: "Run checkout"
         uses: actions/checkout@v2
 
-      - name: "Run login az"
+      - name: "Run login azz"
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
