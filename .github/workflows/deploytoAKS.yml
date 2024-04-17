@@ -36,11 +36,14 @@ jobs:
           docker build -t mp-devops-app:${{ github.sha }} .
           docker tag mp-devops-app:${{ github.sha }} devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
 
-      - name: Azure Kubernetes set context
-        uses: Azure/aks-set-context@v1
+      - uses: azure/login@v1
         with:
           # Azure credentials i.e. output of `az ad sp create-for-rbac --sdk-auth`
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Azure Kubernetes set context
+        uses: Azure/aks-set-context@v1
+        with:
           # Resource Group Name
           resource-group: azure-tp_group
           # AKS Cluster Name
