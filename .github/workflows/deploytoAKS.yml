@@ -36,10 +36,6 @@ jobs:
           docker build -t mp-devops-app:${{ github.sha }} .
           docker tag mp-devops-app:${{ github.sha }} devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
 
-      - name: docker push
-        run: |
-          docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
-
       - name: Azure Kubernetes set context
         uses: Azure/aks-set-context@v1
         with:
@@ -64,6 +60,10 @@ jobs:
           secret-type: docker-registry
           # Name of the secret. You can use this secret name in the Kubernetes YAML configuration file.
           secret-name: docker-image-pull-secret
+
+      - name: docker push
+        run: |
+          docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
 
       # Deploy to k8s cluster
       - name: Deploy to Kubernetes cluster
