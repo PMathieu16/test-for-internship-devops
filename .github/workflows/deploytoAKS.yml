@@ -42,6 +42,5 @@ jobs:
           docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
           docker push devmptg.azurecr.io/mp-devops-app:latest
           sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
-          kubectl apply -f deployment.yaml
-          cat deployment.yaml
-          kubectl apply -f service.yaml
+          kubectl apply -f deployment.yaml -n ${{ env.K8S_NAMESPACE }}
+          kubectl apply -f service.yaml -n ${{ env.K8S_NAMESPACE }}
