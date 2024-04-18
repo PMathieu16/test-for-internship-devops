@@ -62,7 +62,7 @@ jobs:
 
       - name: "Build and push Docker image"
         run: |
-          IMAGE_NAME = devmptg.azurecr.io/$TRIGRAM-devops-app
+          IMAGE_NAME=devmptg.azurecr.io/$TRIGRAM-devops-app
 
           docker build -t $IMAGE_NAME:${{ github.sha }} .
           docker tag $IMAGE_NAME:${{ github.sha }} $IMAGE_NAME:latest
