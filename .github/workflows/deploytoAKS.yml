@@ -47,7 +47,7 @@ jobs:
 
       - name: "Print NAMESPACE and TRIGRAM"
         run: |
-          echo "NAMESPACE: ${{ steps.set_namespace.outputs.namespace }}"
+          echo "NAMESPACE: ${{ env.NAMESPACE }}"
           echo "TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}"
 
       - name: "Az CLI login"
