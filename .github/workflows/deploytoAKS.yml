@@ -72,7 +72,7 @@ jobs:
 
       - name: "Deploy to AKS"
         run: |
-          sed -i 's/trigram/$TRIGRAM/g' deployment.yaml
+          sed -i 's/trigram/${{ env.TRIGRAM }}/g' deployment.yaml
           sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
           kubectl apply -f deployment.yaml -n ${{ env.NAMESPACE }}
           kubectl apply -f service.yaml -n ${{ env.NAMESPACE }}
