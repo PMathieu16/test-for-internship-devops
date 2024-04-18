@@ -11,27 +11,27 @@ Avant de pouvoir utiliser cette action, assurez-vous de suivre les étapes suiva
 1. Enregistrez votre application dans "App Registrations" sur Azure Active Directory.
 2. Une fois l'enregistrement effectué, accédez à la section "Certifacts & secrets", puis à "Federal Credential".
 
-!(https://media.discordapp.net/attachments/1229408335204188190/1230495519936086057/image.png?ex=66338741&is=66211241&hm=e537314deef51084a25a28d294fab467904c510fdcb244f7cce26ea3accbcba9&=&format=webp&quality=lossless&width=609&height=560)
+![Certifacts & secrets](https://media.discordapp.net/attachments/1229408335204188190/1230495519936086057/image.png?ex=66338741&is=66211241&hm=e537314deef51084a25a28d294fab467904c510fdcb244f7cce26ea3accbcba9&=&format=webp&quality=lossless&width=609&height=560)
 
 3. Ajoutez votre dépôt GitHub comme dépôt autorisé à effectuer des actions dans "Federal Credential".
    - Organisation : Nom de votre organisation GitHub.
    - Repository : Nom de votre dépôt.
    - Entity type : "branch" et le nom de la branche qui déclenche l'action.
 
-!(https://media.discordapp.net/attachments/1229408335204188190/1230496090529468416/Sans_titre_1.png?ex=663387c9&is=662112c9&hm=fd4877d132ea8cf0d3a2d9478488df9d5294e89a57dee6193f53b9101cf62582&=&format=webp&quality=lossless&width=1307&height=560)
+![Federal Credential](https://media.discordapp.net/attachments/1229408335204188190/1230496090529468416/Sans_titre_1.png?ex=663387c9&is=662112c9&hm=fd4877d132ea8cf0d3a2d9478488df9d5294e89a57dee6193f53b9101cf62582&=&format=webp&quality=lossless&width=1307&height=560)
 
-!(https://media.discordapp.net/attachments/1229408335204188190/1230496273220636742/image.png?ex=663387f5&is=662112f5&hm=6de0829d184993767db1ed1d9ead98b8a224b8f1346cb0931af8837589a131d4&=&format=webp&quality=lossless&width=1307&height=560)
+![Federal Credential](https://media.discordapp.net/attachments/1229408335204188190/1230496273220636742/image.png?ex=663387f5&is=662112f5&hm=6de0829d184993767db1ed1d9ead98b8a224b8f1346cb0931af8837589a131d4&=&format=webp&quality=lossless&width=1307&height=560)
 
 4. Récupérez le Client ID et le Tenant ID dans l'application registration sous l'onglet "Overview".
 
-!(https://media.discordapp.net/attachments/1229408335204188190/1230495909712887910/Sans_titre.png?ex=6633879e&is=6621129e&hm=bed976a80efecd5e8f8a62f233ddf3de0718eaef99f21d16bb09a7be8f4e5850&=&format=webp&quality=lossless&width=1307&height=560)
+![ Client ID et le Tenant ID ](https://media.discordapp.net/attachments/1229408335204188190/1230495909712887910/Sans_titre.png?ex=6633879e&is=6621129e&hm=bed976a80efecd5e8f8a62f233ddf3de0718eaef99f21d16bb09a7be8f4e5850&=&format=webp&quality=lossless&width=1307&height=560)
 
 5. Ajoutez ces informations dans les secrets de votre dépôt GitHub :
    - AZURE_CLIENT_ID : Client ID récupéré.
    - AZURE_TENANT_ID : Tenant ID récupéré.
    - AZURE_SUBSCRIPTION_ID : ID d'abonnement du service Kubernetes.
 
-!(https://media.discordapp.net/attachments/1229408335204188190/1230496586833068052/Sans_titre_2.png?ex=6633883f&is=6621133f&hm=da01384a13367c682810914a52902398fba6aabb72383a090175a6ceebe7fc15&=&format=webp&quality=lossless&width=1264&height=560)
+![Github secrets](https://media.discordapp.net/attachments/1229408335204188190/1230496586833068052/Sans_titre_2.png?ex=6633883f&is=6621133f&hm=da01384a13367c682810914a52902398fba6aabb72383a090175a6ceebe7fc15&=&format=webp&quality=lossless&width=1264&height=560)
 
 ## Utilisation
 
