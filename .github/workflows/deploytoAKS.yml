@@ -45,6 +45,11 @@ jobs:
         env:
           TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}
 
+      - name: "Print NAMESPACE and TRIGRAM"
+        run: |
+          echo "NAMESPACE: ${{ steps.set_namespace.outputs.namespace }}"
+          echo "TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}"
+
       - name: "Az CLI login"
         uses: azure/login@v1
         with:
@@ -62,6 +67,7 @@ jobs:
 
       - name: "Build and push Docker image"
         run: |
+          echo ${{ env.TRIGRAM }}
           IMAGE_NAME=devmptg.azurecr.io/${{ env.TRIGRAM }}-devops-app
 
           docker build -t $IMAGE_NAME:${{ github.sha }} .
