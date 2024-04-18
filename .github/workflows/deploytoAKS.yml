@@ -31,15 +31,27 @@ jobs:
         run: |
           az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           az aks get-credentials --resource-group azure-tp_group --name azure-tp --overwrite-existing
-          echo "K8S_NAMESPACE=${{ vars.K8S_NAMESPACE }}" >> $GITHUB_ENV
 
-      - name: "Run Azure CLI commands"
+      - name: "Docker build & push"
         run: |
           docker build -t devmptg.azurecr.io/mp-devops-app:${{ github.sha }} .
           docker tag devmptg.azurecr.io/mp-devops-app:${{ github.sha }} devmptg.azurecr.io/mp-devops-app:latest
           az acr login --name devmptg 
           docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
           docker push devmptg.azurecr.io/mp-devops-app:latest
+
+      - name: "Run deployments"
+        run: |
+          case ${{ github.actor }} in 
+            "PMathieu16")
+              NAMESPACE="workspace-mathieu-20001"
+              ;;
+            "timogo")
+              NAMESPACE="workspace-timothee-1999"
+              ;;
+          esac
+
+
           sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
-          kubectl apply -f deployment.yaml -n ${{ env.K8S_NAMESPACE }}
-          kubectl apply -f service.yaml -n ${{ env.K8S_NAMESPACE }}
+          kubectl apply -f deployment.yaml -n $NAMESPACE
+          kubectl apply -f service.yaml -n $NAMESPACE
