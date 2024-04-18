@@ -17,6 +17,34 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: "Set NameSpace"
+        id: set_namespace
+        run: |
+          case ${{ github.actor }} in 
+            "PMathieu16")
+              echo "::set-output name=namespace::workspace-mathieu-2001"
+              ;;
+            "timogo")
+              echo "::set-output name=namespace::workspace-timothee-1999"
+              ;;
+          esac
+        env:
+          NAMESPACE: ${{ steps.set_namespace.outputs.namespace }}
+
+      - name: "Set Trigram"
+        id: set_trigram
+        run: |
+          case ${{ github.actor }} in 
+            "PMathieu16")
+              echo "::set-output name=trigram::mp"
+              ;;
+            "timogo")
+              echo "::set-output name=trigram::tg"
+              ;;
+          esac
+        env:
+          TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}
+
       - name: "Az CLI login"
         uses: azure/login@v1
         with:
@@ -34,24 +62,17 @@ jobs:
 
       - name: "Build and push Docker image"
         run: |
-          docker build -t devmptg.azurecr.io/mp-devops-app:${{ github.sha }} .
-          docker tag devmptg.azurecr.io/mp-devops-app:${{ github.sha }} devmptg.azurecr.io/mp-devops-app:latest
+          IMAGE_NAME = devmptg.azurecr.io/$TRIGRAM-devops-app
+
+          docker build -t IMAGE_NAME:${{ github.sha }} .
+          docker tag IMAGE_NAME:${{ github.sha }} IMAGE_NAME:latest
           az acr login --name devmptg 
-          docker push devmptg.azurecr.io/mp-devops-app:${{ github.sha }}
-          docker push devmptg.azurecr.io/mp-devops-app:latest
+          docker push IMAGE_NAME:${{ github.sha }}
+          docker push IMAGE_NAME:latest
 
       - name: "Deploy to AKS"
         run: |
-          case ${{ github.actor }} in 
-            "PMathieu16")
-              NAMESPACE="workspace-mathieu-2001"
-              ;;
-            "timogo")
-              NAMESPACE="workspace-timothee-1999"
-              ;;
-          esac
-
-
+          sed -i 's/trigram/$TRIGRAM/g' deployment.yaml
           sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
           kubectl apply -f deployment.yaml -n $NAMESPACE
           kubectl apply -f service.yaml -n $NAMESPACE
