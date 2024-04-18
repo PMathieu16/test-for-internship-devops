@@ -28,8 +28,6 @@ jobs:
               echo "::set-output name=namespace::workspace-timothee-1999"
               ;;
           esac
-        env:
-          NAMESPACE: ${{ steps.set_namespace.outputs.namespace }}
 
       - name: "Set Trigram"
         id: set_trigram
@@ -42,13 +40,6 @@ jobs:
               echo "::set-output name=trigram::tg"
               ;;
           esac
-        env:
-          TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}
-
-      - name: "Print NAMESPACE and TRIGRAM"
-        run: |
-          echo "NAMESPACE: ${{ env.NAMESPACE }}"
-          echo "TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}"
 
       - name: "Az CLI login"
         uses: azure/login@v1
@@ -67,7 +58,6 @@ jobs:
 
       - name: "Build and push Docker image"
         run: |
-          echo ${{ env.TRIGRAM }}
           IMAGE_NAME=devmptg.azurecr.io/${{ env.TRIGRAM }}-devops-app
 
           docker build -t $IMAGE_NAME:${{ github.sha }} .
@@ -75,6 +65,8 @@ jobs:
           az acr login --name devmptg 
           docker push $IMAGE_NAME:${{ github.sha }}
           docker push $IMAGE_NAME:latest
+        env:
+          TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}
 
       - name: "Deploy to AKS"
         run: |
@@ -82,3 +74,6 @@ jobs:
           sed -i 's/latest/${{ github.sha }}/g' deployment.yaml
           kubectl apply -f deployment.yaml -n ${{ env.NAMESPACE }}
           kubectl apply -f service.yaml -n ${{ env.NAMESPACE }}
+        env:
+          TRIGRAM: ${{ steps.set_trigram.outputs.trigram }}
+          NAMESPACE: ${{ steps.set_namespace.outputs.namespace }}
